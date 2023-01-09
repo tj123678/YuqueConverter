@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using HtmlAgilityPack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -13,13 +14,18 @@ namespace Wepie.YuqueConverter
         * mac 使用时需要注意以下问题
         * 1、google浏览器与ChromeDriver版本不一致问题
         * 解决方案：
-        * a、先下载对应浏览器的版本  http://chromedriver.storage.googleapis.com/index.html
+        * a、先下载对应浏览器的版  http://chromedriver.storage.googleapis.com/index.html
         * b、替换该工程目录下的chromedriver文件 路径：YuqueConverter/bin/Debug/netcoreapp3.1/chromedriver
+         
         * 2、转换的网页显示不全
         * 解决方案：
         * a、这个是debug chrome打开方式不正确
         * b、先配置环境变量 https://www.cnblogs.com/zhaikunkun/p/12610312.html
         * c、使用命令打开debug浏览器（只能用这个命令打开） Google\ Chrome -remote-debugging-port=9222
+        
+        3、chromedriver的版本下载是对的，但还是提示版本不对
+        * 解决方案：
+        * 检查YuqueConverter.csproj里面的Selenium.WebDriver.ChromeDriver Version是否是对应的版本
         */
 
 
@@ -38,8 +44,20 @@ namespace Wepie.YuqueConverter
 
                 //HandlePrivacyPolicy(driver);
                 //HandleThirdInformation(driver);
-                HandleLegalRequire(driver);
+                // HandleLegalRequire(driver);
+                HandleMostImportant(driver);
             }
+        }
+
+        //以后每次更新sdk信息用这个就行了
+        private static void HandleMostImportant(IWebDriver driver)
+        {
+            //《坦克无敌》隐私政策
+            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/kixv7u?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policy.html", "《坦克无敌》隐私政策");
+            //《坦克无敌隐私政策摘要》
+            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/kaxglq?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policybrief.html", "《坦克无敌隐私政策摘要》");
+            //《坦克无敌》第三方共享清单—通用版本
+            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/ks0wbi?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/third/Thirdcommon.html", "《坦克无敌》第三方共享清单—通用版本");
         }
 
         private static void HandlePrivacyPolicy(IWebDriver driver)
@@ -68,20 +86,31 @@ namespace Wepie.YuqueConverter
 
         private static void HandleLegalRequire(IWebDriver driver)
         {
-            HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/3cab8a50-ad4d-4d6a-a523-7dee3f716199?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policybrief.html", "坦克无敌隐私政策摘要");
-            HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/5b47a695-493a-4bcc-908f-1077a1c9dc5e?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policy.html", "《坦克无敌》隐私政策");
-            HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/19741296-b79b-445c-a035-67f052f850c8?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/ChildrenPolicy.html", "坦克无敌儿童隐私保护声明");
-            HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/c3deb9a0-5791-4e03-84a3-c5a8622abca3?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/third/Thirdcommon.html", "《坦克无敌》第三方共享清单");
+            HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/4183adae-1246-4b26-825e-f6c05fad38f2?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/CancelInternational.html", "坦克无敌隐私政策摘要");
+            // HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/5b47a695-493a-4bcc-908f-1077a1c9dc5e?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policy.html", "《坦克无敌》隐私政策");
+            //HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/19741296-b79b-445c-a035-67f052f850c8?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/ChildrenPolicy.html", "坦克无敌儿童隐私保护声明");
+            //HandleHtmlContent(driver, "https://wepie.yuque.com/docs/share/c3deb9a0-5791-4e03-84a3-c5a8622abca3?#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/third/Thirdcommon.html", "《坦克无敌》第三方共享清单");
         }
 
         private static void HandleHtmlContent(IWebDriver driver, string url, string localFilePath, string title)
         {
             Console.WriteLine($"url:{url}");
-
             driver.Navigate().GoToUrl(url);
 
-            IWait<IWebDriver> wait=new WebDriverWait(driver, TimeSpan.FromSeconds(30.00));                
+            for (int i = 1; i <= 10; i++)
+            {
+                string jsCode = "window.scrollTo({top: document.body.scrollHeight / 10 * " + i + ", behavior: \"smooth\"});";
+                //使用IJavaScriptExecutor接口运行js代码
+                IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+                js.ExecuteScript(jsCode);
+                //暂停滚动
+                Thread.Sleep(1000);
+            }
+            
+            IWait<IWebDriver> wait=new WebDriverWait(driver, TimeSpan.FromSeconds(60.00));                
             wait.Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
+            
+            
             
             var entries = driver.Manage().Logs.GetLog(LogType.Browser);
             foreach (var entry in entries)
