@@ -52,12 +52,14 @@ namespace Wepie.YuqueConverter
         //以后每次更新sdk信息用这个就行了
         private static void HandleMostImportant(IWebDriver driver)
         {
-            //《坦克无敌》隐私政策
-            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/kixv7u?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policy.html", "《坦克无敌》隐私政策");
-            //《坦克无敌隐私政策摘要》
-            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/kaxglq?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policybrief.html", "《坦克无敌隐私政策摘要》");
+            ////《坦克无敌》隐私政策
+            // HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/kixv7u?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policy.html", "《坦克无敌》隐私政策");
+            ////《坦克无敌隐私政策摘要》
+            //HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/kaxglq?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/privacy/Policybrief.html", "《坦克无敌隐私政策摘要》");
             //《坦克无敌》第三方共享清单—通用版本
-            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/ks0wbi?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/third/Thirdcommon.html", "《坦克无敌》第三方共享清单—通用版本");
+            // HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/ks0wbi?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/third/Thirdcommon.html", "《坦克无敌》第三方共享清单—通用版本");
+            //《坦克无敌》用户协议
+            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/oezaqq?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/User.html", "坦克无敌用户协议");
         }
 
         private static void HandlePrivacyPolicy(IWebDriver driver)
