@@ -59,7 +59,9 @@ namespace Wepie.YuqueConverter
             //《坦克无敌》第三方共享清单—通用版本
             // HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/ks0wbi?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/third/Thirdcommon.html", "《坦克无敌》第三方共享清单—通用版本");
             //《坦克无敌》用户协议
-            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/oezaqq?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/User.html", "坦克无敌用户协议");
+            // HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/oezaqq?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/User.html", "坦克无敌用户协议");
+            //坦克无敌平台内容管理规范
+            HandleHtmlContent(driver, "https://wepie.yuque.com/liuhongmin-private-group-2838/vn9wz8/wnqsvgu6yrirf7pq?singleDoc#", @"/Users/tangjian/Desktop/Work/finaltank-home/src/policy/ContentManagement.html", "坦克无敌平台内容管理规范");                 
         }
 
         private static void HandlePrivacyPolicy(IWebDriver driver)
